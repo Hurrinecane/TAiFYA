@@ -54,6 +54,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Hashtable.cs" />
+    <Compile Include="Parser\AstNode.cs" />
+    <Compile Include="Parser\AstNodePrinter.cs" />
+    <Compile Include="Parser\IntepreterException.cs" />
+    <Compile Include="Parser\MathLangGenerator.cs" />
+    <Compile Include="Parser\MathLangParser.cs" />
+    <Compile Include="Parser\ParserBase.cs" />
+    <Compile Include="Parser\ParserBaseException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -81,5 +88,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,32 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using MathLang;
 
 namespace TAiFYA
 {
     public partial class Form1 : Form
     {
-        private Analizator _analizator = new Analizator();
+        private readonly Analizator _analizator = new Analizator();
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            TextBoxOutput.Clear();
-            listViewLexems.Items.Clear();
+        public Analizator Analizator => _analizator;
 
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            richTextBoxTree.Clear();
+            richTextBoxOutput.Clear();
+            richTextBoxGenerator.Clear();
+            listViewLexems.Items.Clear();
+            try
+            {
+                AstNode program = MathLangParser.Parse(richTextBoxInput.Text);
+                richTextBoxTree.Text = AstNodePrinter.Print(program);
+                richTextBoxGenerator.Text = MathLangIntepreter.Execute(program);
+                buttonOptimize.Enabled = true;
+            }
+            catch (Exception exc)
+            {
+                richTextBoxOutput.Text += "Error: " + exc;
+                return;
+            }
             var analizator = new Analizator();
-            analizator.Analyze(TextBoxInput.Text);
-            TextBoxOutput.Text = analizator.Output;
+            analizator.Analyze(richTextBoxInput.Text);
+            richTextBoxOutput.Text = analizator.Output;
             foreach (var item in analizator.tablesRows)
             {
                 ListViewItem lvi = new ListViewItem();
@@ -39,8 +48,12 @@ namespace TAiFYA
                 lvi.SubItems.Add(lvsi2);
                 listViewLexems.Items.Add(lvi);
             }
-            int i = 0;
-            
+
+        }
+
+        private void ButtonOptimize_Click(object sender, EventArgs e)
+        {
+            richTextBoxGenerator.Text = MathLangIntepreter.OptimizeGeneratedString(richTextBoxGenerator.Text);
         }
     }
 }

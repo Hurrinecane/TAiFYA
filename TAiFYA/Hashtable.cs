@@ -34,9 +34,11 @@ namespace HashTable
                 throw new ArgumentNullException(nameof(lexeme));
             }
             Key = key;
-            Value = new IdentityTablesRow();
-            Value.lexeme = lexeme;
-            Value.type = SetType(lexeme);
+            Value = new IdentityTablesRow
+            {
+                lexeme = lexeme,
+                type = SetType(lexeme)
+            };
         }
 
         private string SetType(string lexeme)
@@ -97,7 +99,7 @@ namespace HashTable
         /// Представляет собой словарь, ключ которого представляет собой хеш ключа хранимых данных,
         /// а значение это список элементов с одинаковым хешем ключа.
         /// </remarks>
-        private Dictionary<int, List<Item>> _items = null;
+        private readonly Dictionary<int, List<Item>> _items = null;
 
         /// <summary>
         /// Коллекция хранимых данных в хеш-таблице в виде пар Хеш-Значения.
